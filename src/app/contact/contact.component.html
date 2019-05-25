@@ -1,0 +1,92 @@
+<app-navbar></app-navbar>
+<form [formGroup]="this.contactService.form" (ngSubmit)="onSubmit()">
+  <h1>Contact</h1>
+  <input type="hidden" formControlName="$key">
+  <div class="form-group">
+    <label>Nama Lengkap : </label>
+    <input formControlName="nama" class="form-control" [ngClass]="{'is-invalid':submitted && formControls.nama.errors}">
+    <div class="invalid-feedback" *ngIf="submitted && formControls.nama.errors">
+      <div class="alert alert-danger">Nama tidak boleh kosong.</div>
+    </div>
+    <div class="invalid-feedback" *ngIf="submitted && formControls.nama.errors">
+      <div class="alert alert-danger" *ngIf="formControls.nama.errors.maxlength">Nama maximal 20 karakter</div>
+      <div class="alert alert-danger" *ngIf="formControls.nama.errors.minlength">Nama minimal 3 karakter</div>
+    </div>
+  </div>
+  <!--  -->
+  <div class="form-group">
+    <label>Email : </label>
+    <input formControlName="email" class="form-control"
+      [ngClass]="{'is-invalid':submitted && formControls.email.errors}">
+    <div class="invalid-feedback" *ngIf="submitted && formControls.email.errors">
+      <div class="alert alert-danger">Invalid email address.</div>
+    </div>
+  </div>
+  <!--  -->
+  <div class="form-group">
+    <label>Pesan : </label>
+    <input formControlName="pesan" class="form-control"
+      [ngClass]="{'is-invalid':submitted && formControls.pesan.errors}">
+    <div class="invalid-feedback" *ngIf="submitted && formControls.pesan.errors">
+      <div class="alert alert-danger" *ngIf="formControls.pesan.errors.required">Pesan tidak boleh kosong.</div>
+      <div class="alert alert-danger" *ngIf="formControls.pesan.errors.minlength">Minimal 3 karakter</div>
+      <div class="alert alert-danger" *ngIf="formControls.pesan.errors.maxlength">Maximal 20 karakter</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <input type="submit" value="Simpan" class="btn btn-md btn-primary">
+    <br>
+    <div class="alert alert-info" *ngIf="showSuccessMessage">
+      Berhasil Disimpan !
+    </div>
+
+  </div>
+</form>
+
+<div class="output">
+  <div class="card border-success mb-3 mt-5" style="width: 300px;" *ngFor="let contact of contactArray; let i = index">
+    <div class="card-header text-center">Results</div>
+    <div class="card-body text-success">
+      <h5 class="card-title">Nama : {{contact.nama}}</h5>
+      <p class="card-text">Email : {{contact.email}}
+      </p>
+      <p class="card-text">pesan : {{contact.pesan}}
+      </p>
+      <button class="btn btn-outline-danger" (click)="onDelete(this.contact.$key)">Delete</button>
+      <div class="alert alert-danger" *ngIf="showDeletedMessage">
+        Deleted successfully.
+      </div>
+    </div>
+  </div>
+  <!-- <ul *ngFor="let contact of contacts">
+    <h1>Results</h1>
+    <li>
+      <h3>Nama : {{contact.nama}}</h3>
+    </li>
+    <li>
+      <h3>email : {{contact.emails}}</h3>
+    </li>
+    <li>
+      <h3>pesan : {{contact.pesan}}</h3>
+    </li>
+
+  </ul> -->
+  <!-- <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Nama</th>
+        <th scope="col">Email</th>
+        <th scope="col">Pesan</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let contact of contacts">
+        <td>{{ contact.nama }}</td>
+        <td>{{ contact.email }}</td>
+        <td>{{ contact.pesan }}</td>
+        <td><button (click)="removeContact(contact)" class="btn btn-md btn-danger">Delete</button></td>
+      </tr>
+    </tbody>
+  </table> -->
+</div>

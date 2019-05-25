@@ -1,0 +1,74 @@
+<app-navlog></app-navlog>
+<form [formGroup]="this.friendService.form" (ngSubmit)="onSubmit()">
+  <h1>Add New Friend</h1>
+  <input type="hidden" formControlName="$key">
+  <div class="form-group">
+    <label>Nama : </label>
+    <input formControlName="nama" class="form-control" [ngClass]="{'is-invalid':submitted && formControls.nama.errors}">
+    <div class="invalid-feedback" *ngIf="submitted && formControls.nama.errors">
+      <div class="alert alert-danger">This field is required.</div>
+    </div>
+    <div class="invalid-feedback" *ngIf="submitted && formControls.nama.errors">
+      <div class="alert alert-danger" *ngIf="formControls.nama.errors.maxlength">Nama maximal 20 karakter</div>
+      <div class="alert alert-danger" *ngIf="formControls.nama.errors.minlength">Nama minimal 3 karakter</div>
+    </div>
+  </div>
+  <!--  -->
+  <div class="form-group">
+    <label>Email : </label>
+    <input formControlName="emails" class="form-control"
+      [ngClass]="{'is-invalid':submitted && formControls.emails.errors}">
+    <div class="invalid-feedback" *ngIf="submitted && formControls.emails.errors">
+      <div class="alert alert-danger">Invalid email address.</div>
+    </div>
+  </div>
+  <!--  -->
+  <div class="form-group">
+    <label>Contact : </label>
+    <input formControlName="contactno" class="form-control"
+      [ngClass]="{'is-invalid':submitted && formControls.contactno.errors}">
+    <div class="invalid-feedback" *ngIf="submitted && formControls.contactno.errors">
+      <div class="alert alert-danger" *ngIf="formControls.contactno.errors.required">This field is required.</div>
+      <div class="alert alert-danger" *ngIf="formControls.contactno.errors.minlength">Minimal 3 angka</div>
+      <div class="alert alert-danger" *ngIf="formControls.contactno.errors.maxlength">Maximal 4 angka</div>
+      <div class="alert alert-danger" *ngIf="formControls.contactno.errors.pattern">Harus angka</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <input type="submit" value="Add Friends !!" class="btn btn-md btn-primary">
+    <div class="alert alert-info" *ngIf="showSuccessMessage">
+      Submitted successfully.
+    </div>
+
+  </div>
+</form>
+<!--  -->
+<div class="tabelku">
+  <h1>Friend List</h1>
+  <div class="search">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">Search :</span>
+      </div>
+      <input class="form-control" placeholder="nama" name="searchInput" #searchInput="ngModel" [(ngModel)]="searchText">
+    </div>
+  </div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">No</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Contact No</th>
+      </tr>
+    </thead>
+    <ng-container *ngFor="let friend of friendArray; let i = index">
+      <tr *ngIf="filterCondition(friend)">
+        <th scope="row">{{i+1}}</th>
+        <td>{{friend.nama.toUpperCase()}}</td>
+        <td>{{friend.emails}}</td>
+        <td>{{friend.contactno}}</td>
+      </tr>
+    </ng-container>
+  </table>
+</div>
